@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""FlowMeter app icon generator: 「流量計測」の2x2レイアウトで1024x1024 PNGを作る。"""
+"""FlowMeter app icon generator: 「流量測定」の2x2レイアウトで1024x1024 PNGを作る。"""
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -7,7 +7,7 @@ SIZE = 1024
 OUTPUT = "FlowMeter/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png"
 FONT_PATH = "/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc"
 TEXT_TL, TEXT_TR = "流", "量"
-TEXT_BL, TEXT_BR = "計", "測"
+TEXT_BL, TEXT_BR = "測", "定"
 
 img = Image.new("RGB", (SIZE, SIZE), (0, 0, 0))
 draw = ImageDraw.Draw(img)
