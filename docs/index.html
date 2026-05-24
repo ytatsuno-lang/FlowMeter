@@ -17,12 +17,73 @@
 </head>
 <body>
 
+<!-- ===== Icon sprite (Lucide MIT) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
+      <circle cx="12" cy="10" r="3"/>
+    </symbol>
+    <symbol id="i-map-pin-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12.75 7.09a3 3 0 0 1 2.16 2.16"/>
+      <path d="M17.072 17.072c-1.634 2.17-3.527 3.912-4.471 4.727a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 1.432-4.568"/>
+      <path d="m2 2 20 20"/>
+      <path d="M8.475 2.818A8 8 0 0 1 20 10c0 1.183-.31 2.377-.81 3.533"/>
+      <path d="M9.13 9.13a3 3 0 0 0 3.74 3.74"/>
+    </symbol>
+    <symbol id="i-gauge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m12 14 4-4"/>
+      <path d="M3.34 19a10 10 0 1 1 17.32 0"/>
+    </symbol>
+    <symbol id="i-droplet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </symbol>
+    <symbol id="i-pencil-line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 20h9"/>
+      <path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/>
+    </symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="17 8 12 3 7 8"/>
+      <line x1="12" y1="3" x2="12" y2="15"/>
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 6 6 18"/>
+      <path d="m6 6 12 12"/>
+    </symbol>
+    <symbol id="i-x-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="m15 9-6 6"/>
+      <path d="m9 9 6 6"/>
+    </symbol>
+    <symbol id="i-loader" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2v4"/>
+      <path d="m16.2 7.8 2.9-2.9"/>
+      <path d="M18 12h4"/>
+      <path d="m16.2 16.2 2.9 2.9"/>
+      <path d="M12 18v4"/>
+      <path d="m4.9 19.1 2.9-2.9"/>
+      <path d="M2 12h4"/>
+      <path d="m4.9 4.9 2.9 2.9"/>
+    </symbol>
+  </defs>
+</svg>
+
 <main id="app">
 
   <!-- ===== メーター式タブ ===== -->
   <section id="tab-meter" class="tab-content">
     <div class="location-badge">
-      <span class="loc-icon">📍</span>
+      <svg class="icon loc-icon"><use href="#i-map-pin"/></svg>
       <div class="loc-text">
         <div class="loc-line1">位置情報なし</div>
         <div class="loc-line2"></div>
@@ -65,7 +126,7 @@
   <!-- ===== 水槽式タブ ===== -->
   <section id="tab-tank" class="tab-content hidden">
     <div class="location-badge">
-      <span class="loc-icon">📍</span>
+      <svg class="icon loc-icon"><use href="#i-map-pin"/></svg>
       <div class="loc-text">
         <div class="loc-line1">位置情報なし</div>
         <div class="loc-line2"></div>
@@ -135,8 +196,8 @@
     <div class="history-toolbar">
       <h1>計測履歴</h1>
       <div class="toolbar-actions">
-        <button id="history-export-btn" class="small">エクスポート</button>
-        <button id="history-import-btn" class="small">インポート</button>
+        <button id="history-export-btn" class="small"><svg class="icon"><use href="#i-download"/></svg>エクスポート</button>
+        <button id="history-import-btn" class="small"><svg class="icon"><use href="#i-upload"/></svg>インポート</button>
         <input type="file" id="history-import-input" accept="application/json" hidden>
       </div>
     </div>
@@ -152,15 +213,15 @@
 <!-- ===== TabBar ===== -->
 <nav class="tab-bar">
   <button class="tab-btn active" data-tab="meter">
-    <span class="tab-icon">⏱</span>
+    <svg class="icon tab-icon"><use href="#i-gauge"/></svg>
     <span class="tab-label">メーター</span>
   </button>
   <button class="tab-btn" data-tab="tank">
-    <span class="tab-icon">💧</span>
+    <svg class="icon tab-icon"><use href="#i-droplet"/></svg>
     <span class="tab-label">水槽</span>
   </button>
   <button class="tab-btn" data-tab="history">
-    <span class="tab-icon">🕘</span>
+    <svg class="icon tab-icon"><use href="#i-clock"/></svg>
     <span class="tab-label">履歴</span>
   </button>
 </nav>

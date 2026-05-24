@@ -37,12 +37,12 @@ function initLocationBadges() {
 
 function renderLocationBadges(state) {
   const badges = document.querySelectorAll('.location-badge');
-  let icon = '📍', line1 = '位置情報なし', line2 = '', stale = false, loading = false;
+  let iconId = 'i-map-pin', line1 = '位置情報なし', line2 = '', stale = false, loading = false, denied = false;
 
   if (state.state === 'denied') {
-    icon = '🚫'; line1 = '位置情報拒否中'; line2 = '';
+    iconId = 'i-map-pin-off'; line1 = '位置情報拒否中'; line2 = ''; denied = true;
   } else if (state.state === 'loading') {
-    icon = '◌'; line1 = '現在地を取得中…'; line2 = ''; loading = true;
+    iconId = 'i-loader'; line1 = '現在地を取得中…'; line2 = ''; loading = true;
   } else if (state.location) {
     line1 = state.location.placeName || state.location.address || '座標のみ取得';
     const age = fmtAge(state.capturedAt);
@@ -54,7 +54,10 @@ function renderLocationBadges(state) {
 
   for (const b of badges) {
     b.classList.toggle('stale', stale);
-    b.querySelector('.loc-icon').textContent = icon;
+    b.classList.toggle('denied', denied);
+    b.classList.toggle('loading', loading);
+    const iconEl = b.querySelector('.loc-icon');
+    iconEl.innerHTML = `<use href="#${iconId}"/>`;
     b.querySelector('.loc-line1').textContent = line1;
     b.querySelector('.loc-line2').textContent = line2;
     const btn = b.querySelector('.loc-btn');

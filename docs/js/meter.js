@@ -155,7 +155,7 @@ function render() {
         <span class="lap-title">${i + 1} 回目</span>
         <span class="lap-time">${fmtSeconds(t)} s</span>
         <span class="lap-flow">${fmtFlow(flow)} m³/h</span>
-        <button class="lap-del" aria-label="${i + 1}回目を削除">✕</button>
+        <button class="lap-del" aria-label="${i + 1}回目を削除"><svg class="icon"><use href="#i-x-circle"/></svg></button>
       `;
       row.classList.add('has-value');
       row.querySelector('.lap-del').addEventListener('click', () => deleteLap(i));

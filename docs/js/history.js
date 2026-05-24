@@ -48,7 +48,7 @@ function buildRow(m) {
 
   const method = m.method || 'meter';
   const methodLabel = method === 'tank' ? '水槽' : 'メーター';
-  const methodIcon = method === 'tank' ? '💧' : '⏱';
+  const methodIconId = method === 'tank' ? 'i-droplet' : 'i-gauge';
   const flow = averageFlowRate(m);
 
   let detailLine = '';
@@ -64,7 +64,7 @@ function buildRow(m) {
 
   row.innerHTML = `
     <div class="row-header">
-      <span class="method-badge">${methodIcon} ${methodLabel}</span>
+      <span class="method-badge"><svg class="icon"><use href="#${methodIconId}"/></svg>${methodLabel}</span>
       <span class="row-date">${fmtDate(new Date(m.date))}</span>
     </div>
     ${flow != null ? `
@@ -75,9 +75,10 @@ function buildRow(m) {
     <div class="row-detail">${detailLine}</div>
     ${loc ? `
       <div class="row-loc">
-        📍 <span>${locLine1}${locLine2 ? `<br><span class="dim">${locLine2}</span>` : ''}</span>
+        <svg class="icon"><use href="#i-map-pin"/></svg>
+        <span>${locLine1}${locLine2 ? `<br><span class="dim">${locLine2}</span>` : ''}</span>
       </div>` : ''}
-    ${m.note ? `<div class="row-note">📝 ${escapeHTML(m.note)}</div>` : ''}
+    ${m.note ? `<div class="row-note"><svg class="icon"><use href="#i-pencil-line"/></svg> ${escapeHTML(m.note)}</div>` : ''}
   `;
 
   row.addEventListener('click', () => openDetail(m.id));
@@ -139,7 +140,7 @@ async function openDetail(id) {
     <h2>詳細</h2>
     <h3>計測結果</h3>
     <div class="detail-row"><span>日時</span><span>${fmtDateDetail(new Date(m.date))}</span></div>
-    <div class="detail-row"><span>方式</span><span>${method === 'tank' ? '💧 水槽式' : '⏱ メーター式'}</span></div>
+    <div class="detail-row"><span>方式</span><span><svg class="icon"><use href="#${method === 'tank' ? 'i-droplet' : 'i-gauge'}"/></svg> ${method === 'tank' ? '水槽式' : 'メーター式'}</span></div>
     ${flow != null ? `<div class="detail-row"><span>流量</span><span class="num strong">${fmtFlow(flow)} m³/h</span></div>` : ''}
     ${methodDetail}
     ${locHTML}
