@@ -1,7 +1,7 @@
 // FlowMeter PWA Service Worker
 // app shell キャッシュ + Nominatim はネットワーク優先
 
-const CACHE_VERSION = 'flowmeter-v2';
+const CACHE_VERSION = 'flowmeter-v3';
 const APP_SHELL = [
   './',
   './index.html',

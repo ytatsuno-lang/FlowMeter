@@ -169,18 +169,24 @@ function render() {
     }
   }
 
-  // 平均
-  if (state.laps.length >= 2) {
-    const avg = state.laps.reduce((a, b) => a + b, 0) / state.laps.length;
+  // 平均 (常に表示してレイアウトを固定)
+  const n = state.laps.length;
+  if (n >= 1) {
+    const avg = state.laps.reduce((a, b) => a + b, 0) / n;
     const avgFlow = flowRateMeter(state.capacityL, avg);
     el.avgRow.innerHTML = `
-      <span class="lap-title">平均 (${state.laps.length}回)</span>
+      <span class="lap-title">平均 (${n}回)</span>
       <span class="lap-time">${fmtSeconds(avg)} s</span>
       <span class="lap-flow">${fmtFlow(avgFlow)} m³/h</span>
     `;
-    el.avgRow.classList.remove('hidden');
+    el.avgRow.classList.add('has-value');
   } else {
-    el.avgRow.classList.add('hidden');
+    el.avgRow.innerHTML = `
+      <span class="lap-title">平均</span>
+      <span class="lap-time">—</span>
+      <span class="lap-flow">—</span>
+    `;
+    el.avgRow.classList.remove('has-value');
   }
 
   // main button
