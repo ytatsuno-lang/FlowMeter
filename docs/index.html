@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>流量測定</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#2E86FF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="流量測定">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/idb-keyval@6/dist/umd.js"></script>
+</head>
+<body>
+
+<main id="app">
+
+  <!-- ===== メーター式タブ ===== -->
+  <section id="tab-meter" class="tab-content">
+    <div class="location-badge">
+      <span class="loc-icon">📍</span>
+      <div class="loc-text">
+        <div class="loc-line1">位置情報なし</div>
+        <div class="loc-line2"></div>
+      </div>
+      <button class="loc-btn">取得</button>
+    </div>
+
+    <div class="section-label">1周あたりの容量</div>
+    <div class="segmented">
+      <label><input type="radio" name="meter-capacity" value="10"><span>10 L</span></label>
+      <label><input type="radio" name="meter-capacity" value="100" checked><span>100 L</span></label>
+      <label><input type="radio" name="meter-capacity" value="1000"><span>1000 L</span></label>
+    </div>
+    <p class="hint" id="meter-capacity-detail"></p>
+
+    <div class="live-display">
+      <div class="timer-line"><span id="meter-timer">0.00</span><span class="unit">秒</span></div>
+      <div class="flow-line" id="meter-flow">—</div>
+    </div>
+
+    <div class="laps">
+      <div class="lap-row" id="meter-lap-0"></div>
+      <div class="lap-row" id="meter-lap-1"></div>
+      <div class="lap-row" id="meter-lap-2"></div>
+      <hr>
+      <div class="lap-row avg-row hidden" id="meter-avg-row"></div>
+    </div>
+
+    <button class="main-btn blue" id="meter-main-btn">
+      <span class="main-btn-title" id="meter-main-btn-title">START</span>
+      <span class="main-btn-sub" id="meter-main-btn-sub">針が0を通過したらタップ</span>
+    </button>
+
+    <div class="bottom-buttons">
+      <button class="secondary-btn" id="meter-reset-btn">リセット</button>
+      <button class="secondary-btn save-btn" id="meter-save-btn">保存</button>
+    </div>
+  </section>
+
+  <!-- ===== 水槽式タブ ===== -->
+  <section id="tab-tank" class="tab-content hidden">
+    <div class="location-badge">
+      <span class="loc-icon">📍</span>
+      <div class="loc-text">
+        <div class="loc-line1">位置情報なし</div>
+        <div class="loc-line2"></div>
+      </div>
+      <button class="loc-btn">取得</button>
+    </div>
+
+    <div class="section-label">形状</div>
+    <div class="segmented">
+      <label><input type="radio" name="tank-shape" value="rectangular" checked><span>矩形</span></label>
+      <label><input type="radio" name="tank-shape" value="circular"><span>円形</span></label>
+    </div>
+
+    <div class="section-label">寸法 [m]</div>
+    <div id="tank-rect-group" class="input-group">
+      <div class="field-row">
+        <label class="field-label">幅 W</label>
+        <input type="number" id="tank-width" inputmode="decimal" step="0.01" min="0">
+      </div>
+      <div class="field-row">
+        <label class="field-label">奥行 D</label>
+        <input type="number" id="tank-depth" inputmode="decimal" step="0.01" min="0">
+      </div>
+    </div>
+    <div id="tank-circ-group" class="input-group hidden">
+      <div class="field-row">
+        <label class="field-label">直径 Φ</label>
+        <input type="number" id="tank-diameter" inputmode="decimal" step="0.01" min="0">
+      </div>
+    </div>
+
+    <div class="section-label">水位差 Δh [m]</div>
+    <div class="field-row">
+      <label class="field-label">Δh</label>
+      <input type="number" id="tank-level-delta" inputmode="decimal" step="0.01" min="0">
+    </div>
+
+    <div class="prediction-box">
+      <div>
+        <div class="dim small">断面積</div>
+        <div class="num" id="tank-cross-section">—</div>
+      </div>
+      <div class="right">
+        <div class="dim small">体積変化（Δh分）</div>
+        <div class="num" id="tank-volume">—</div>
+      </div>
+    </div>
+
+    <div class="live-display">
+      <div class="timer-line"><span id="tank-timer">0.00</span><span class="unit">秒</span></div>
+      <div class="flow-line" id="tank-flow">—</div>
+    </div>
+
+    <button class="main-btn blue" id="tank-main-btn">
+      <span class="main-btn-title" id="tank-main-btn-title">START</span>
+      <span class="main-btn-sub" id="tank-main-btn-sub">水位の基準を読んだらタップ</span>
+    </button>
+
+    <div class="bottom-buttons">
+      <button class="secondary-btn" id="tank-reset-btn">リセット</button>
+      <button class="secondary-btn save-btn" id="tank-save-btn">保存</button>
+    </div>
+  </section>
+
+  <!-- ===== 履歴タブ ===== -->
+  <section id="tab-history" class="tab-content hidden">
+    <div class="history-toolbar">
+      <h1>計測履歴</h1>
+      <div class="toolbar-actions">
+        <button id="history-export-btn" class="small">エクスポート</button>
+        <button id="history-import-btn" class="small">インポート</button>
+        <input type="file" id="history-import-input" accept="application/json" hidden>
+      </div>
+    </div>
+    <div id="history-empty" class="empty-state hidden">
+      <div class="empty-icon">📭</div>
+      <p>履歴はまだありません</p>
+    </div>
+    <div id="history-list" class="history-list"></div>
+  </section>
+
+</main>
+
+<!-- ===== TabBar ===== -->
+<nav class="tab-bar">
+  <button class="tab-btn active" data-tab="meter">
+    <span class="tab-icon">⏱</span>
+    <span class="tab-label">メーター</span>
+  </button>
+  <button class="tab-btn" data-tab="tank">
+    <span class="tab-icon">💧</span>
+    <span class="tab-label">水槽</span>
+  </button>
+  <button class="tab-btn" data-tab="history">
+    <span class="tab-icon">🕘</span>
+    <span class="tab-label">履歴</span>
+  </button>
+</nav>
+
+<!-- ===== Save Sheet (modal) ===== -->
+<dialog id="save-dialog" class="sheet">
+  <div id="save-body"></div>
+</dialog>
+
+<!-- ===== Detail Sheet (modal) ===== -->
+<dialog id="detail-dialog" class="sheet">
+  <div id="detail-body"></div>
+  <button id="detail-close" class="sheet-close">閉じる</button>
+</dialog>
+
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>
