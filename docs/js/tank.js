@@ -196,4 +196,9 @@ function render() {
   el.resetBtn.disabled = !isRunning() && !hasResult();
   el.saveBtn.disabled = !canSave();
   el.saveBtn.classList.toggle('enabled', canSave());
+
+  // タブの状態属性（CSSがスクロール挙動の出し分けに使用）
+  el.root.dataset.state = hasResult() ? 'finished'
+                        : isRunning() ? 'running'
+                        : 'idle';
 }
