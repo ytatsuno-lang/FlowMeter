@@ -37,7 +37,7 @@ hr { border: none; border-top: 1px solid #333; margin: 8px 0; }
 #app {
   flex: 1;
   padding: env(safe-area-inset-top) 16px 0;
-  padding-bottom: calc(76px + env(safe-area-inset-bottom)); /* TabBar 分 */
+  padding-bottom: calc(60px + env(safe-area-inset-bottom)); /* TabBar 分 */
   overflow-y: hidden;
   overscroll-behavior: contain;
   max-width: 640px;
@@ -274,25 +274,24 @@ input[type="number"]::-webkit-inner-spin-button {
   position: fixed;
   left: 50%; transform: translateX(-50%);
   bottom: env(safe-area-inset-bottom);
-  margin-bottom: 4px;
   display: flex;
   background: rgba(40, 40, 40, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 28px;
-  padding: 6px;
+  padding: 4px;
   gap: 4px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.4);
   z-index: 10;
 }
 .tab-btn {
   display: flex; flex-direction: column; align-items: center;
-  padding: 6px 18px;
+  padding: 3px 16px;
   border-radius: 22px;
   color: #888;
-  gap: 2px;
+  gap: 1px;
 }
-.tab-btn .tab-icon { font-size: 20px; width: 20px; height: 20px; }
+.tab-btn .tab-icon { font-size: 18px; width: 18px; height: 18px; }
 .tab-btn .tab-label { font-size: 10px; white-space: nowrap; }
 .tab-btn.active {
   background: rgba(46,134,255,0.18);
