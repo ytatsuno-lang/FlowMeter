@@ -287,7 +287,8 @@ input[type="number"]::-webkit-inner-spin-button {
 .tab-bar {
   position: fixed;
   left: 50%; transform: translateX(-50%);
-  bottom: env(safe-area-inset-bottom);
+  /* safe-area の途中まで侵食して下げる（ホームインジケーターは避ける） */
+  bottom: max(4px, calc(env(safe-area-inset-bottom) - 16px));
   display: flex;
   background: rgba(40, 40, 40, 0.95);
   backdrop-filter: blur(20px);
